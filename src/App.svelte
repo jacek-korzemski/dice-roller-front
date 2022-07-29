@@ -1,5 +1,5 @@
 <script>
-	const host = "http://localhost:8084";
+	const host = "https://dice-roller-node.herokuapp.com";
 	let status = "Gotowy do rzutu";
 	let uiActive = true;
 	let name = "Gal Anonim";
@@ -49,6 +49,10 @@
 		updateLastRolls();
 	}, 1000);
 </script>
+
+<svelte:head>
+	<base href="/dr" />
+</svelte:head>
 
 <main>
 	<h2>Gracz:</h2>
