@@ -1,4 +1,6 @@
 <script>
+	import { Router } from "svelte-navigator";
+
 	const host = "https://dice-roller-node.herokuapp.com";
 	let status = "Gotowy do rzutu";
 	let uiActive = true;
@@ -49,10 +51,6 @@
 		updateLastRolls();
 	}, 1000);
 </script>
-
-<svelte:head>
-	<base href="/dr" />
-</svelte:head>
 
 <main>
 	<h2>Gracz:</h2>
