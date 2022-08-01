@@ -1,10 +1,10 @@
 <script>
-	import { Router } from "svelte-navigator";
-
-	const host = "https://dice-roller-node.herokuapp.com";
+	// const host = "https://dice-roller-node.herokuapp.com";
+	const host = "http://localhost:5000";
 	let status = "Gotowy do rzutu";
 	let uiActive = true;
 	let name = "Gal Anonim";
+	let customRoll = "";
 	let rolls = [];
 
 	const sendRoll = (user, dices) => {
@@ -62,46 +62,21 @@
 	<div class={uiActive ? "ready" : "not-ready"}>
 		<div class="grid-row">
 			<button on:click={() => sendRoll(name, "d4")}>d4</button>
-			<button on:click={() => sendRoll(name, "2d4")}>2d4</button>
-			<button on:click={() => sendRoll(name, "3d4")}>3d4</button>
-			<button on:click={() => sendRoll(name, "4d4")}>4d4</button>
-			<button on:click={() => sendRoll(name, "5d4")}>5d4</button>
-		</div>
-		<div class="grid-row">
 			<button on:click={() => sendRoll(name, "d6")}>d6</button>
-			<button class="main" on:click={() => sendRoll(name, "2d6")}>2d6</button>
-			<button on:click={() => sendRoll(name, "3d6")}>3d6</button>
-			<button on:click={() => sendRoll(name, "4d6")}>3d6</button>
-			<button on:click={() => sendRoll(name, "5d6")}>3d6</button>
-		</div>
-		<div class="grid-row">
 			<button on:click={() => sendRoll(name, "d8")}>d8</button>
-			<button on:click={() => sendRoll(name, "2d8")}>2d8</button>
-			<button on:click={() => sendRoll(name, "3d8")}>3d8</button>
-			<button on:click={() => sendRoll(name, "4d8")}>4d8</button>
-			<button on:click={() => sendRoll(name, "5d8")}>5d8</button>
-		</div>
-		<div class="grid-row">
 			<button on:click={() => sendRoll(name, "d10")}>d10</button>
-			<button on:click={() => sendRoll(name, "2d10")}>2d10</button>
-			<button on:click={() => sendRoll(name, "3d10")}>3d10</button>
-			<button on:click={() => sendRoll(name, "4d10")}>4d10</button>
-			<button on:click={() => sendRoll(name, "5d10")}>5d10</button>
-		</div>
-		<div class="grid-row">
 			<button on:click={() => sendRoll(name, "d12")}>d12</button>
-			<button on:click={() => sendRoll(name, "2d12")}>2d12</button>
-			<button on:click={() => sendRoll(name, "3d12")}>3d12</button>
-			<button on:click={() => sendRoll(name, "4d12")}>4d12</button>
-			<button on:click={() => sendRoll(name, "5d12")}>5d12</button>
+			<button on:click={() => sendRoll(name, "d20")} class="main">d20</button>
+			<button on:click={() => sendRoll(name, "d100")}>d100</button>
 		</div>
-		<div class="grid-row">
-			<button on:click={() => sendRoll(name, "d20")}>d20</button>
-			<button on:click={() => sendRoll(name, "2d20")}>2d20</button>
-			<button on:click={() => sendRoll(name, "3d20")}>3d20</button>
-			<button on:click={() => sendRoll(name, "4d20")}>4d20</button>
-			<button on:click={() => sendRoll(name, "5d20")}>5d20</button>
-		</div>
+	</div>
+	<h2>Własna formuła</h2>
+	<p>
+		<small>Np.: 2d6 + d4 + 1</small>
+	</p>
+	<div class="input-grid">
+		<input type="text" bind:value={customRoll} />
+		<button on:click={() => sendRoll(name, customRoll)}>Rzuć!</button>
 	</div>
 
 	<h3>Rzuty:</h3>
@@ -109,16 +84,52 @@
 	<ul>
 		{#each rolls as roll}
 			<li>
-				<span>rzut numer {roll.id}: </span>
-				<span>gracz: <strong>{roll.user}</strong></span>
-				<span>wyrzucił: <strong>{roll.result}</strong></span>
-				<span>używając: <strong>{roll.dices}</strong></span>
+				<div class="roll">
+					<div class="top">
+						<span>rzut numer <strong class="green">{roll.id}</strong>: </span>
+						<span>gracz: <strong>{roll.user}</strong></span>
+					</div>
+					<div class="middle">
+						<span>wyrzucił: <strong>{roll.result}</strong></span>
+						<span>używając: <strong>{roll.dices}</strong></span>
+					</div>
+					<div class="bottom">
+						<span>
+							Szczegółowo:
+							{#each roll.details as detail}
+								{detail},
+							{/each}
+						</span>
+					</div>
+				</div>
 			</li>
 		{/each}
 	</ul>
 </main>
 
 <style>
+	.green {
+		color: green;
+	}
+	.roll {
+		width: 100%;
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		margin-bottom: 16px;
+	}
+	.roll .top,
+	.roll .middle {
+		display: flex;
+		justify-content: space-between;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	}
+	.roll .top span,
+	.roll .middle span {
+		width: 100%;
+	}
+	.roll .top span:last-child,
+	.roll .middle span:last-child {
+		border-left: 1px solid rgba(0, 0, 0, 0.25);
+	}
 	input[type="text"] {
 		width: 300px;
 		height: 32px;
@@ -138,7 +149,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 100vh;
+		min-height: 100%;
 	}
 	ul {
 		width: 100%;
@@ -149,8 +160,8 @@
 	ul li {
 		width: 100%;
 		max-width: 700px;
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		list-style-type: none;
+		padding: 0;
 	}
 	ul li span {
 		display: block;
@@ -173,5 +184,20 @@
 	}
 	button.main {
 		background: rgba(16, 255, 15, 0.8);
+	}
+	.input-grid {
+		margin: 0 auto;
+		width: 100%;
+		max-width: 760px;
+		display: grid;
+		grid-template-columns: 1.5fr 0.5fr;
+	}
+	.input-grid input {
+		display: block;
+		width: 100%;
+		height: 36px;
+	}
+	.input-grid button {
+		border: 1px solid black;
 	}
 </style>
