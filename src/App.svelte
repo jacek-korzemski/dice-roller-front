@@ -1,53 +1,36 @@
 <script>
-	const host = "https://dice-roller-node.herokuapp.com";
-	// const host = "http://localhost:5000";
-	let status = "Gotowy do rzutu";
-	let uiActive = true;
+	// APIs
+	import sendRoll from "api/sendRoll";
+	import updateLastRolls from "api/updateLastRolls";
+
+	// STORES
+	import { status, uiActive } from "stores/status";
+	import { rolls } from "stores/rolls";
+
+	// Variables to read from stores
+	let currentStatus;
+	let currentUiStatus;
+	let currentRolls;
+
+	// Subscriptions
+	status.subscribe((value) => {
+		currentStatus = value;
+	});
+
+	uiActive.subscribe((value) => {
+		currentUiStatus = value;
+	});
+
+	rolls.subscribe((value) => {
+		currentRolls = value;
+	});
+
+	// App states
 	let name = "Gal Anonim";
 	let customRoll = "";
-	let rolls = [];
 	let opened = "";
 
-	const sendRoll = (user, dices) => {
-		uiActive = false;
-		status = "Rzucam...";
-		fetch(host + "/api/new-roll", {
-			method: "POST",
-			cache: "no-cache",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ user: user, dices: dices }),
-		})
-			.then(() => {
-				status = "Rzucono!";
-				updateLastRolls();
-				setTimeout(() => {
-					status = "Gotowy do rzutu";
-					uiActive = true;
-				});
-			})
-			.catch(() => {
-				status = "Wystąpił błąd podczas rzucania 🔥";
-			});
-	};
-
-	const updateLastRolls = () => {
-		fetch(host + "/api/last-rolls", {
-			method: "GET",
-			cache: "no-cache",
-		})
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
-			})
-			.then((res) => {
-				rolls = res;
-			})
-			.catch(() => {
-				status = "Wystąpił błąd podczas wczytywania rzutów 🔥";
-			});
-	};
-
+	// Initial function to update data
 	setInterval(() => {
 		updateLastRolls();
 	}, 1000);
@@ -59,10 +42,10 @@
 			<h3>Gracz:</h3>
 			<input type="text" bind:value={name} />
 			<hr />
-			<h3>Status: {status}</h3>
+			<h3>Status: {currentStatus}</h3>
 			<hr />
 			<h4>Kostki:</h4>
-			<div class={uiActive ? "ready" : "not-ready"}>
+			<div class={currentUiStatus ? "ready" : "not-ready"}>
 				<div style="display: flex; justify-content: space-between; gap: 15px;">
 					<p
 						class="clickable"
@@ -125,7 +108,7 @@
 			<h3>Rzuty:</h3>
 
 			<ul>
-				{#each rolls as roll}
+				{#each currentRolls as roll}
 					<li>
 						<div class="roll">
 							<div class="top">
@@ -152,7 +135,7 @@
 	</div>
 </main>
 
-<style>
+<style type="text/scss">
 	.top-part-of-the-app {
 		height: 100%;
 		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -187,19 +170,19 @@
 		border: 1px solid rgba(0, 0, 0, 0.25);
 		margin-bottom: 16px;
 	}
-	.roll .top,
-	.roll .middle {
-		display: flex;
-		justify-content: space-between;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-	}
-	.roll .top span,
-	.roll .middle span {
-		width: 100%;
-	}
-	.roll .top span:last-child,
-	.roll .middle span:last-child {
-		border-left: 1px solid rgba(0, 0, 0, 0.25);
+	.roll {
+		.top,
+		.middle {
+			display: flex;
+			justify-content: space-between;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+			span {
+				width: 100%;
+				&:last-child {
+					border-left: 1px solid rgba(0, 0, 0, 0.25);
+				}
+			}
+		}
 	}
 	input[type="text"] {
 		width: 300px;
@@ -228,17 +211,17 @@
 		max-width: 700px;
 		margin: 32px auto;
 		padding: 0;
-	}
-	ul li {
-		width: 100%;
-		max-width: 700px;
-		list-style-type: none;
-		padding: 0;
-	}
-	ul li span {
-		display: block;
-		text-align: left;
-		padding: 0 8px;
+		li {
+			width: 100%;
+			max-width: 700px;
+			list-style-type: none;
+			padding: 0;
+			span {
+				display: block;
+				text-align: left;
+				padding: 0 8px;
+			}
+		}
 	}
 	.grid-row {
 		width: 100%;
@@ -253,24 +236,25 @@
 		text-transform: uppercase;
 		font-size: 16px;
 		width: 100%;
+		&.main {
+			width: 100%;
+			background: rgba(16, 255, 15, 0.8);
+		}
 	}
-	button.main {
-		width: 100%;
-		background: rgba(16, 255, 15, 0.8);
-	}
+
 	.input-grid {
 		margin: 0 auto;
 		width: 100%;
 		max-width: 760px;
 		display: grid;
 		grid-template-columns: 1.5fr 0.5fr;
-	}
-	.input-grid input {
-		display: block;
-		width: 100%;
-		height: 36px;
-	}
-	.input-grid button {
-		border: 1px solid black;
+		input {
+			display: block;
+			width: 100%;
+			height: 36px;
+		}
+		button {
+			border: 1px solid black;
+		}
 	}
 </style>

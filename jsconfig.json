@@ -20,6 +20,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "paths": {
+      "api/*": ["./src/api/*"],
+      "components/*": ["./src/components/*"],
+      "stores/*": ["./src/stores/*"]
+      },
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.
      * Disable this if you'd like to use dynamic types.
