@@ -33,7 +33,7 @@
 	}
 	.button:hover,
 	.button.active {
-		background: #0f7173;
+		background: rgba(195, 195, 195, 1);
 	}
 	.button.disabled {
 		opacity: 0.5;

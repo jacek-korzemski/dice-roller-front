@@ -13,6 +13,7 @@
 	import BasicDices from "components/BasicDices.svelte";
 	import PopularDices from "components/PopularDices.svelte";
 	import CustomDices from "components/CustomDices.svelte";
+	import User from "components/User.svelte";
 
 	// ICONS
 	import d4 from "icons/d4.svg";
@@ -27,6 +28,7 @@
 	let currentStatus;
 	let currentUiStatus;
 	let currentRolls;
+	let disabled = false;
 
 	// Subscriptions
 	status.subscribe((value) => {
@@ -59,32 +61,42 @@
 	let subBarIsActive = false;
 	let subBarContent = "";
 
-	const toogleSubBar = () => {
-		console.log("click");
-		subBarIsActive = !subBarIsActive;
+	const toggleSubBar = (option) => {
+		if (subBarContent === "") {
+			subBarIsActive = true;
+			subBarContent = option;
+			return;
+		}
+		if (subBarContent === option) {
+			subBarIsActive = false;
+			subBarContent = "";
+			return;
+		}
+		disabled = true;
+		subBarIsActive = false;
+		setTimeout(() => {
+			subBarIsActive = true;
+			subBarContent = option;
+			disabled = false;
+		}, 300);
+		return;
 	};
 
-	const openDefaultDices = () => {
-		toogleSubBar();
-		subBarContent = "basicDices";
-	};
-
-	const openPopularDices = () => {
-		toogleSubBar();
-		subBarContent = "popularDices";
-	};
-
-	const openCustomDices = () => {
-		toogleSubBar();
-		subBarContent = "customDices";
+	const closeSubBar = () => {
+		subBarIsActive = false;
+		subBarContent = "";
 	};
 </script>
 
-<main>
+<main class={disabled ? "disabled" : "active"}>
 	<BottomBar>
-		<CustomButton clickHandler={toogleSubBar} isActive={false}><img class="user-icon" src={user} alt="user" /></CustomButton>
-		<CustomButton clickHandler={openDefaultDices} isActive={false}><img class="single-dice" src={d20} alt="user" /></CustomButton>
-		<CustomButton clickHandler={openPopularDices} isActive={false}>
+		<CustomButton clickHandler={() => toggleSubBar("user")} isActive={false}
+			><img class="user-icon" src={user} alt="user" /></CustomButton
+		>
+		<CustomButton clickHandler={() => toggleSubBar("basicDices")} isActive={false}
+			><img class="single-dice" src={d20} alt="user" /></CustomButton
+		>
+		<CustomButton clickHandler={() => toggleSubBar("popularDices")} isActive={false}>
 			<div class="dice-set">
 				<img src={d4} alt="d4" />
 				<img src={d8} alt="d8" />
@@ -92,28 +104,21 @@
 				<img src={d6} alt="d6" />
 			</div>
 		</CustomButton>
-		<CustomButton clickHandler={openCustomDices} isActive={false}><img class="pencil" src={pencil} alt="pencil" /></CustomButton>
+		<CustomButton clickHandler={() => toggleSubBar("customDices")} isActive={false}
+			><img class="pencil" src={pencil} alt="pencil" /></CustomButton
+		>
 	</BottomBar>
 	<SubBottomBar isActive={subBarIsActive}>
+		{#if subBarContent === "user"}
+			<User closeHandler={closeSubBar} />
+		{/if}
 		{#if subBarContent === "basicDices"}
-			<BasicDices
-				closeHandler={() => {
-					subBarIsActive = false;
-				}}
-			/>
+			<BasicDices closeHandler={closeSubBar} />
 		{/if}
 		{#if subBarContent === "popularDices"}
-			<PopularDices
-				closeHandler={() => {
-					subBarIsActive = false;
-				}}
-			/>{/if}
+			<PopularDices closeHandler={closeSubBar} />{/if}
 		{#if subBarContent === "customDices"}
-			<CustomDices
-				closeHandler={() => {
-					subBarIsActive = false;
-				}}
-			/>
+			<CustomDices closeHandler={closeSubBar} />
 		{/if}
 	</SubBottomBar>
 	<div class="rolls" />
@@ -126,6 +131,9 @@
 			width: auto;
 			display: block;
 			margin: 0 auto;
+		}
+		&.disabled {
+			pointer-events: none;
 		}
 	}
 	.user-icon {

@@ -1,19 +1,18 @@
 <script>
-	import sendRoll from "api/sendRoll";
+	import { user } from "stores/user";
 
-	const clickDice = (dice) => {
-		sendRoll("user", dice);
-		closeHandler();
-	};
+	let currentUser;
 
-	let formula = "2d6 + d4 + 1";
+	user.subscribe((value) => {
+		currentUser = value;
+	});
 
 	export let closeHandler;
 </script>
 
 <div class="custom">
-	<input class="input" bind:value={formula} />
-	<div class="button" on:click={() => clickDice(formula)}>OK</div>
+	<input class="input" bind:value={currentUser} />
+	<div class="button" on:click={closeHandler}>OK</div>
 </div>
 
 <style type="text/scss">

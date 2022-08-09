@@ -45,7 +45,7 @@
 		text-align: center;
 		cursor: pointer;
 		&:hover {
-			background: lightcoral;
+			background: rgba(195, 195, 195, 1);
 		}
 		img {
 			width: 64px;
