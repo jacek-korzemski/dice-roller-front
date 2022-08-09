@@ -14,6 +14,7 @@
 	import PopularDices from "components/PopularDices.svelte";
 	import CustomDices from "components/CustomDices.svelte";
 	import User from "components/User.svelte";
+	import Rolls from "components/Rolls.svelte";
 
 	// ICONS
 	import d4 from "icons/d4.svg";
@@ -25,31 +26,16 @@
 	import pencil from "icons/pencil.svg";
 
 	// Variables to read from stores
-	let currentStatus;
-	let currentUiStatus;
 	let currentRolls;
 	let disabled = false;
 
 	// Subscriptions
-	status.subscribe((value) => {
-		currentStatus = value;
-	});
-
-	uiActive.subscribe((value) => {
-		currentUiStatus = value;
-	});
-
 	rolls.subscribe((value) => {
 		currentRolls = value;
 	});
 
-	// App states
-	let name = "Gal Anonim";
-	let customRoll = "";
-	let opened = "";
-
 	// Initial function to update data
-	const isEnabled = false;
+	const isEnabled = true;
 
 	if (isEnabled) {
 		setInterval(() => {
@@ -121,7 +107,9 @@
 			<CustomDices closeHandler={closeSubBar} />
 		{/if}
 	</SubBottomBar>
-	<div class="rolls" />
+	<div class="rolls">
+		<Rolls rolls={currentRolls} />
+	</div>
 </main>
 
 <style type="text/scss">
@@ -166,5 +154,6 @@
 		width: 100%;
 		height: calc(100vh - 64px);
 		background: rgba(30, 30, 39, 1);
+		overflow-y: scroll;
 	}
 </style>

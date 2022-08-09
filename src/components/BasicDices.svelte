@@ -12,7 +12,7 @@
 
 	// Component functionality
 	const clickDice = (dice) => {
-		sendRoll("user", dice);
+		sendRoll(dice);
 		closeHandler();
 	};
 

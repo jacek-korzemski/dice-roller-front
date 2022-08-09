@@ -1,8 +1,9 @@
 <script>
+	// APIs
 	import sendRoll from "api/sendRoll";
 
 	const clickDice = (dice) => {
-		sendRoll("user", dice);
+		sendRoll(dice);
 		closeHandler();
 	};
 

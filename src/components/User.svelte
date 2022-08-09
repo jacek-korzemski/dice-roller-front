@@ -7,12 +7,17 @@
 		currentUser = value;
 	});
 
+	const save = () => {
+		user.set(currentUser);
+		closeHandler();
+	};
+
 	export let closeHandler;
 </script>
 
 <div class="custom">
 	<input class="input" bind:value={currentUser} />
-	<div class="button" on:click={closeHandler}>OK</div>
+	<div class="button" on:click={save}>OK</div>
 </div>
 
 <style type="text/scss">
