@@ -22,13 +22,14 @@
 <style>
 	.button {
 		width: 100%;
-		padding: 16px 0;
 		text-align: center;
 		color: white;
-		border-top: 1px solid white;
-		border-bottom: 1px solid white;
 		margin-bottom: -1px;
 		cursor: pointer;
+		border-right: 1px solid black;
+	}
+	.button:last-child {
+		border-right: none;
 	}
 	.button:hover,
 	.button.active {

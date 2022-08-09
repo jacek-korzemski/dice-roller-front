@@ -1,6 +1,5 @@
 <script>
 	// APIs
-	import sendRoll from "api/sendRoll";
 	import updateLastRolls from "api/updateLastRolls";
 
 	// STORES
@@ -8,12 +7,21 @@
 	import { rolls } from "stores/rolls";
 
 	// COMPONENTS
-	import LeftBar from "components/LeftBar.svelte";
-	import RightBar from "components/RightBar.svelte";
+	import BottomBar from "components/BottomBar.svelte";
 	import CustomButton from "components/CustomButton.svelte";
-	import SubLeftBar from "components/SubLeftBar.svelte";
+	import SubBottomBar from "components/SubBottomBar.svelte";
 	import BasicDices from "components/BasicDices.svelte";
 	import PopularDices from "components/PopularDices.svelte";
+	import CustomDices from "components/CustomDices.svelte";
+
+	// ICONS
+	import d4 from "icons/d4.svg";
+	import d6 from "icons/d6.svg";
+	import d8 from "icons/d8.svg";
+	import d10 from "icons/d10.svg";
+	import d20 from "icons/d20.svg";
+	import user from "icons/user.svg";
+	import pencil from "icons/pencil.svg";
 
 	// Variables to read from stores
 	let currentStatus;
@@ -39,9 +47,13 @@
 	let opened = "";
 
 	// Initial function to update data
-	// setInterval(() => {
-	// 	updateLastRolls();
-	// }, 1000);
+	const isEnabled = false;
+
+	if (isEnabled) {
+		setInterval(() => {
+			updateLastRolls();
+		}, 1000);
+	}
 
 	// UI logic
 	let subBarIsActive = false;
@@ -61,16 +73,28 @@
 		toogleSubBar();
 		subBarContent = "popularDices";
 	};
+
+	const openCustomDices = () => {
+		toogleSubBar();
+		subBarContent = "customDices";
+	};
 </script>
 
 <main>
-	<LeftBar>
-		<CustomButton clickHandler={toogleSubBar} isActive={false}>Gracz</CustomButton>
-		<CustomButton clickHandler={openDefaultDices} isActive={false}>Podstawowe kości</CustomButton>
-		<CustomButton clickHandler={openPopularDices} isActive={false}>Często używane</CustomButton>
-		<CustomButton clickHandler={() => {}} isActive={false}>Własna formuła</CustomButton>
-	</LeftBar>
-	<SubLeftBar isActive={subBarIsActive} closeHandler={toogleSubBar}>
+	<BottomBar>
+		<CustomButton clickHandler={toogleSubBar} isActive={false}><img class="user-icon" src={user} alt="user" /></CustomButton>
+		<CustomButton clickHandler={openDefaultDices} isActive={false}><img class="single-dice" src={d20} alt="user" /></CustomButton>
+		<CustomButton clickHandler={openPopularDices} isActive={false}>
+			<div class="dice-set">
+				<img src={d4} alt="d4" />
+				<img src={d8} alt="d8" />
+				<img src={d10} alt="d10" />
+				<img src={d6} alt="d6" />
+			</div>
+		</CustomButton>
+		<CustomButton clickHandler={openCustomDices} isActive={false}><img class="pencil" src={pencil} alt="pencil" /></CustomButton>
+	</BottomBar>
+	<SubBottomBar isActive={subBarIsActive}>
 		{#if subBarContent === "basicDices"}
 			<BasicDices
 				closeHandler={() => {
@@ -84,6 +108,55 @@
 					subBarIsActive = false;
 				}}
 			/>{/if}
-	</SubLeftBar>
-	<RightBar />
+		{#if subBarContent === "customDices"}
+			<CustomDices
+				closeHandler={() => {
+					subBarIsActive = false;
+				}}
+			/>
+		{/if}
+	</SubBottomBar>
+	<div class="rolls" />
 </main>
+
+<style type="text/scss">
+	main {
+		img {
+			max-height: 64px;
+			width: auto;
+			display: block;
+			margin: 0 auto;
+		}
+	}
+	.user-icon {
+		transform: scale(0.8);
+	}
+	.single-dice {
+		transform: scale(1.4);
+	}
+	.dice-set {
+		display: grid;
+		width: 64px;
+		height: 64px;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr 1fr;
+		text-align: center;
+		margin: 0 auto;
+		img {
+			width: 32px;
+			height: auto;
+			transform: scale(1.5);
+		}
+	}
+	.pencil {
+		transform: scale(0.7);
+	}
+	.rolls {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: calc(100vh - 64px);
+		background: rgba(30, 30, 39, 1);
+	}
+</style>

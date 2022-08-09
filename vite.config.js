@@ -14,7 +14,8 @@ export default defineConfig({
     alias: {
       'api': path.resolve('./src/api'),
       'components': path.resolve('./src/components'),
-      'stores': path.resolve('./src/stores')
+      'stores': path.resolve('./src/stores'),
+      'icons': path.resolve('./src/icons')
     }
   }
 })

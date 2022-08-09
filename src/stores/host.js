@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { readable } from 'svelte/store';
 
-export const host = writable('http://localhost:5000');
-//export const host = writable('https://dice-roller-node.herokuapp.com');
+export const host = readable('http://localhost:5000');
+//export const host = readable('https://dice-roller-node.herokuapp.com');

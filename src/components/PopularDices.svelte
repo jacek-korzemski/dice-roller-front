@@ -19,15 +19,16 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 1px;
-		border: 1px solid white;
+		border: 1px solid black;
 		border-right: none;
-		background: white;
+		border-left: none;
+		background: black;
 	}
 	.dice {
-		background: green;
+		background: rgb(225, 225, 225);
 		line-height: 64px;
 		font-size: 24px;
-		color: white;
+		color: black;
 		text-align: center;
 		cursor: pointer;
 		&:hover {

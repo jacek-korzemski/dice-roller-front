@@ -23,7 +23,8 @@
     "paths": {
       "api/*": ["./src/api/*"],
       "components/*": ["./src/components/*"],
-      "stores/*": ["./src/stores/*"]
+      "stores/*": ["./src/stores/*"],
+      "icons/*": ["./src/icons/*"]
       },
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.
