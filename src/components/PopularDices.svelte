@@ -12,13 +12,14 @@
 
 <div class="basic-dices">
 	<div class="dice" on:click={() => clickDice("2d6")}>2D6</div>
+	<div class="dice" on:click={() => clickDice("2d20")}>2D20</div>
 	<div class="dice" on:click={() => clickDice("d100")}>D100</div>
 </div>
 
 <style type="text/scss">
 	.basic-dices {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 		gap: 1px;
 		border: 1px solid black;
 		border-right: none;

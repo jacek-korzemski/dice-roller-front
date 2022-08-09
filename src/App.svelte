@@ -3,7 +3,6 @@
 	import updateLastRolls from "api/updateLastRolls";
 
 	// STORES
-	import { status, uiActive } from "stores/status";
 	import { rolls } from "stores/rolls";
 
 	// COMPONENTS
@@ -114,6 +113,9 @@
 
 <style type="text/scss">
 	main {
+		background: rgba(30, 30, 39, 1);
+		width: 100%;
+		height: 100vh;
 		img {
 			max-height: 64px;
 			width: auto;
@@ -152,8 +154,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: calc(100vh - 64px);
-		background: rgba(30, 30, 39, 1);
+		height: calc(100vh - 132px);
 		overflow-y: scroll;
 	}
 </style>

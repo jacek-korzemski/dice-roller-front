@@ -16,7 +16,7 @@
 	.roll {
 		display: grid;
 		grid-template-columns: 52px 1fr 140px;
-		grid-template-rows: auto repeat(2, 1fr);
+		grid-template-rows: auto auto auto;
 		grid-column-gap: 0px;
 		grid-row-gap: 0px;
 		max-width: 640px;
