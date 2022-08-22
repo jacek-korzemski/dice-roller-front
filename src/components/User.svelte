@@ -18,6 +18,7 @@
 <div class="custom">
 	<input class="input" bind:value={currentUser} />
 	<div class="button" on:click={save}>OK</div>
+	<h2>^ Enter your nickname ^</h2>
 </div>
 
 <style type="text/scss">
@@ -31,6 +32,15 @@
 			font-size: 24px;
 			color: black;
 			border: 1px solid rgba(0, 0, 0, 0.37);
+			margin: 0;
+		}
+		h2 {
+			border-top: 1px solid black;
+			margin: 0;
+			text-align: center;
+			line-height: 64px;
+			grid-column-start: 1;
+			grid-column-end: 3;
 		}
 	}
 

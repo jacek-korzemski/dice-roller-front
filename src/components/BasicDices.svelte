@@ -10,6 +10,9 @@
 	import d12 from "icons/d12.svg";
 	import d20 from "icons/d20.svg";
 
+	// COMPONENTS
+	import Advantage from "components/Advantage.svelte";
+
 	// Component functionality
 	const clickDice = (dice) => {
 		sendRoll(dice);
@@ -20,13 +23,16 @@
 </script>
 
 <div class="basic-dices">
+	<div class="advantage">
+		<Advantage />
+	</div>
 	<div class="dice" on:click={() => clickDice("d4")}><img src={d4} alt="d4" /></div>
 	<div class="dice" on:click={() => clickDice("d6")}><img src={d6} alt="d6" /></div>
 	<div class="dice" on:click={() => clickDice("d8")}><img src={d8} alt="d8" /></div>
 
 	<div class="dice" on:click={() => clickDice("d10")}><img src={d10} alt="d10" /></div>
 	<div class="dice" on:click={() => clickDice("d12")}><img src={d12} alt="d12" /></div>
-	<div class="dice" on:click={() => clickDice("d20")}><img src={d20} alt="d20" /></div>
+	<div class="dice last" on:click={() => clickDice("d20")}><img src={d20} alt="d20" /></div>
 </div>
 
 <style type="text/scss">
@@ -37,15 +43,23 @@
 		border: 1px solid black;
 		border-left: none;
 		border-right: none;
-		background: black;
+		.advantage {
+			background: #d2d2d2;
+			grid-column-start: 1;
+			grid-column-end: 7;
+		}
 	}
 	.dice {
 		background: rgb(225, 225, 225);
 		color: white;
 		text-align: center;
+		border-right: 1px solid black;
 		cursor: pointer;
 		&:hover {
 			background: rgba(195, 195, 195, 1);
+		}
+		&.last {
+			border-right: none;
 		}
 		img {
 			width: 64px;

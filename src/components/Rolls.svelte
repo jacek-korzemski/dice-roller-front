@@ -1,16 +1,59 @@
 <script>
 	export let rolls = [];
+
+	const parseRoll = (roll) => {
+		if (Array.isArray(roll)) {
+			if (roll[0] > roll[1]) {
+				return `<span class="green">${roll[0]}</span> lub <span class="red">${roll[1]}</span>`;
+			} else if (roll[1] > roll[0]) {
+				return `<span class="red">${roll[0]}</span> lub <span class="green">${roll[1]}</span>`;
+			} else {
+				return `<span class="black">${roll[0]}</span> lub <span class="black">${roll[1]}</span>`;
+			}
+		}
+		return `<span class="black">${roll}</span>`;
+	};
+
+	const parseDetails = (details) => {
+		if (!Array.isArray(details[0])) {
+			return `<span class="detail">${details.join(", ")}</span>`;
+		}
+		return `<span class="detail">${details[0].join(", ")}</span> <span class="or">lub</span> <span class="detail">${details[1].join(
+			", "
+		)}</span>`;
+	};
 </script>
 
-{#each rolls as roll}
-	<div class="roll">
-		<div class="data id">Id: <span>{roll.id}</span></div>
-		<div class="data user">Gracz: <span>{roll.user}</span></div>
-		<div class="data dices">Rzucił: <span>{roll.dices}</span></div>
-		<div class="data result">Uzyskując: <span>{roll.result}</span></div>
-		<div class="data details">Szczegółowo: <span>{roll.details.join(", ")}</span></div>
-	</div>
-{/each}
+<div>
+	<style>
+		.result span {
+			display: inline;
+			font-weight: 600;
+			font-size: 20px;
+		}
+		.red {
+			color: red;
+		}
+		.green {
+			color: green;
+		}
+		.detail {
+			font-size: 20px;
+		}
+		.or {
+			color: black;
+		}
+	</style>
+	{#each rolls as roll}
+		<div class="roll">
+			<div class="data id">Id: <span>{roll.id}</span></div>
+			<div class="data user">Gracz: <span>{roll.user}</span></div>
+			<div class="data dices">Rzucił: <span class="red">{roll.dices}</span></div>
+			<div class="data result">Uzyskując: {@html parseRoll(roll.result)}</div>
+			<div class="data details">Szczegółowo: {@html parseDetails(roll.details)}</div>
+		</div>
+	{/each}
+</div>
 
 <style type="text/scss">
 	.roll {
@@ -34,11 +77,6 @@
 		font-size: 12px;
 		line-height: 28px;
 		white-space: pre-line;
-		span {
-			font-size: 20px;
-			font-weight: 600;
-			color: green;
-		}
 	}
 
 	.id {

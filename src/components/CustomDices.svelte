@@ -1,5 +1,6 @@
 <script>
 	import sendRoll from "api/sendRoll";
+	import Advantage from "components/Advantage.svelte";
 
 	const clickDice = (dice) => {
 		sendRoll(dice);
@@ -12,6 +13,9 @@
 </script>
 
 <div class="custom">
+	<div class="advantage">
+		<Advantage />
+	</div>
 	<input class="input" bind:value={formula} />
 	<div class="button" on:click={() => clickDice(formula)}>OK</div>
 </div>
@@ -27,6 +31,11 @@
 			font-size: 24px;
 			color: black;
 			border: 1px solid rgba(0, 0, 0, 0.37);
+			margin-bottom: 0;
+		}
+		.advantage {
+			grid-column-start: 1;
+			grid-column-end: 3;
 		}
 	}
 

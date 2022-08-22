@@ -9,10 +9,10 @@
 <style type="text/scss">
 	.sub-left-bar {
 		position: fixed;
-		bottom: 0;
+		bottom: -64px;
 		left: 0;
 		width: 100%;
-		height: 64px;
+		height: 128px;
 		background: rgba(210, 210, 210, 1);
 		border-top: 1px solid black;
 		transition: all 0.3s;
