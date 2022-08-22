@@ -1,13 +1,28 @@
 <script>
+	// APIs
 	import sendRoll from "api/sendRoll";
+
+	// COMPONENTS
 	import Advantage from "components/Advantage.svelte";
+
+	// STORES
+	import { customRoll } from "stores/customRoll";
+
+	let formula;
+
+	customRoll.subscribe((value) => {
+		formula = value;
+	});
 
 	const clickDice = (dice) => {
 		sendRoll(dice);
 		closeHandler();
 	};
 
-	let formula = "2d6 + d4 + 1";
+	const updateInput = (e) => {
+		formula = e.target.value;
+		customRoll.set(e.target.value);
+	};
 
 	export let closeHandler;
 </script>
@@ -16,7 +31,7 @@
 	<div class="advantage">
 		<Advantage />
 	</div>
-	<input class="input" bind:value={formula} />
+	<input class="input" on:change={(e) => updateInput(e)} bind:value={formula} />
 	<div class="button" on:click={() => clickDice(formula)}>OK</div>
 </div>
 

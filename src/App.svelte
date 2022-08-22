@@ -101,7 +101,8 @@
 			<BasicDices closeHandler={closeSubBar} />
 		{/if}
 		{#if subBarContent === "popularDices"}
-			<PopularDices closeHandler={closeSubBar} />{/if}
+			<PopularDices closeHandler={closeSubBar} />
+		{/if}
 		{#if subBarContent === "customDices"}
 			<CustomDices closeHandler={closeSubBar} />
 		{/if}
@@ -154,7 +155,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: calc(100vh - 132px);
+		height: calc(100vh - 192px);
 		overflow-y: scroll;
 	}
 </style>

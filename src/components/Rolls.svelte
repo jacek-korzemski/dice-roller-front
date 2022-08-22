@@ -90,6 +90,9 @@
 	}
 	.user {
 		grid-area: 1 / 2 / 2 / 3;
+		span {
+			font-size: 20px;
+		}
 	}
 	.dices {
 		grid-area: 1 / 3 / 2 / 4;
@@ -99,9 +102,5 @@
 	}
 	.details {
 		grid-area: 3 / 1 / 4 / 4;
-		span {
-			color: black;
-			font-weight: 100;
-		}
 	}
 </style>
